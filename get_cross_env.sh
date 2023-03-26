@@ -1,6 +1,6 @@
 # Source this file to use OpenTomSDK
 
-export ROOT=
+export ROOT=$(pwd)
 export SOURCE="$ROOT/src"
 export INITRAMFS_ROOT="$ROOT/initramfs"
 export ARM_ROOT=arm-sysroot
@@ -14,7 +14,7 @@ export PKG_CONFIG_PATH=$ARM_APPROOT/lib/pkgconfig
 export DOWNLOADS=Downloads
 
 # Choix du Cross GCC
-#if [ "old" == "$1" ]; then
+if [ "old" == "$1" ]; then
 
 	export TOOLCHAIN=old
 	echo Utilisation de gcc-3.3.4_glibc-2.3.2
@@ -30,19 +30,20 @@ export DOWNLOADS=Downloads
 	export CPPFLAGS="-march=armv5te -mtune=arm9tdmi"
 	unset LDFLAGS
 	unset CONFIG_SYSROOT
-#else
-#	export TOOLCHAIN=new
-#	echo Utilisation de Sourcery_G++_Lite
-#	export PREFIX="$ROOT/arm-root"
-#	export CROSS="$ROOT/Sourcery_G++_Lite"
-#	#export CROSS="$ROOT/arm-2009q1"
-#	export T_ARCH=arm-none-linux-gnueabi
-#	MARCH="-march=armv4 -mtune=arm9tdmi -mlittle-endian"
-#	export CFLAGS="$MARCH --sysroot=$PREFIX -Wl,--sysroot=$PREFIX -O2 -I$PREFIX/include -I$PREFIX/usr/include"
-#	export CPPFLAGS="$MARCH -I$PREFIX/include -I$PREFIX/usr/include"
-#	export LDFLAGS="--sysroot=$PREFIX -L$PREFIX/lib -L$PREFIX/usr/lib"
-#	export CONFIG_SYSROOT=$PREFIX
-#fi
+else
+	export TOOLCHAIN=new
+	echo Utilisation de Sourcery_G++_Lite
+	export PREFIX="$ROOT/arm-root"
+	export CROSS="/opt/cross"
+	#export CROSS="$ROOT/Sourcery_G++_Lite"
+	#export CROSS="$ROOT/arm-2009q1"
+	export T_ARCH=arm-none-linux-gnueabi
+	MARCH="-march=armv4 -mtune=arm9tdmi -mlittle-endian"
+	export CFLAGS="$MARCH --sysroot=$PREFIX -Wl,--sysroot=$PREFIX -O2 -I$PREFIX/include -I$PREFIX/usr/include"
+	export CPPFLAGS="$MARCH -I$PREFIX/include -I$PREFIX/usr/include"
+	export LDFLAGS="--sysroot=$PREFIX -L$PREFIX/lib -L$PREFIX/usr/lib"
+	export CONFIG_SYSROOT=$PREFIX
+fi
 
 export PATH=$ARM_APPROOT/bin:/usr/bin:/bin:$ROOT/tools:$CROSS/bin
 
