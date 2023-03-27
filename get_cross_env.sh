@@ -34,10 +34,14 @@ else
 	export TOOLCHAIN=new
 	echo Utilisation de Sourcery_G++_Lite
 	export PREFIX="$ROOT/arm-root"
-	export CROSS="/opt/cross"
-	#export CROSS="$ROOT/Sourcery_G++_Lite"
-	#export CROSS="$ROOT/arm-2009q1"
-	export T_ARCH=arm-none-linux-gnueabi
+	if [ -d /opt/cross ]; then
+		export CROSS="/opt/cross"
+	else
+		:
+		#export CROSS="$ROOT/Sourcery_G++_Lite"
+		#export CROSS="$ROOT/arm-2009q1"
+	fi
+	export T_ARCH=arm-linux-gnueabi
 	MARCH="-march=armv4 -mtune=arm9tdmi -mlittle-endian"
 	export CFLAGS="$MARCH --sysroot=$PREFIX -Wl,--sysroot=$PREFIX -O2 -I$PREFIX/include -I$PREFIX/usr/include"
 	export CPPFLAGS="$MARCH -I$PREFIX/include -I$PREFIX/usr/include"
