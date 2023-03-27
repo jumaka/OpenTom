@@ -5,3 +5,7 @@ initramfs/
 logs/
 opentom_dist/
 src/linux-s3c24xx/
+gcc-3.3.4_glibc-2.3.2/
+kernel
+src/tools/ttimage_tools/*.o
+tools/

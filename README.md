@@ -1,7 +1,13 @@
 # OpenTom
 
 **OpenTom** is a tiny, open source Linux distribution for TomTom™ devices.  
-*This repository was tested to be working on **June 2020**.*
+* This is a work in progress repository to move to a later version of gcc 4.9.4 and associated binutils so that this can be built on a modern ubuntu release. This may be a fools errand and this is early days *
+
+## The docker environment
+
+To use the Dockerfile cd to the docker directory and build the tomtom image with:
+
+`docker build -t tomtom .`
 
 ## Getting started
 

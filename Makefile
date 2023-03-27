@@ -30,9 +30,9 @@ export CONFIGS=$(ROOT)/configs
 export TOMDIST=$(ROOT)/opentom_dist
 export DOWNLOADS=Downloads
 
-export ARMGCC=gcc-3.3.4_glibc-2.3.2
-export CROSS=$(ROOT)/$(ARMGCC)
-# export T_ARCH=arm-linux
+export ARMGCC ?=gcc-3.3.4_glibc-2.3.2
+export CROSS ?=$(ROOT)/$(ARMGCC)
+export T_ARCH ?=arm-linux
 PREFIX=$(CROSS)/arm-linux/sys-root
 export CFLAGS=-mlittle-endian -march=armv5te -mtune=arm9tdmi -fno-omit-frame-pointer -fno-optimize-sibling-calls -mno-thumb-interwork -O2 -I$(ARM_SYSROOT)/usr/include -L$(ARM_SYSROOT)/usr/lib
 export CPPFLAGS=-march=armv5te -mtune=arm9tdmi -I$(PREFIX)/include -I$(PREFIX)/usr/include
