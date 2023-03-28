@@ -33,6 +33,7 @@ export DOWNLOADS=Downloads
 export ARMGCC ?=gcc-3.3.4_glibc-2.3.2
 export CROSS ?=$(ROOT)/$(ARMGCC)
 export T_ARCH ?=arm-linux
+LIBC ?=libc
 PREFIX=$(CROSS)/arm-linux/sys-root
 export CFLAGS=-mlittle-endian -march=armv5te -mtune=arm9tdmi -fno-omit-frame-pointer -fno-optimize-sibling-calls -mno-thumb-interwork -O2 -I$(ARM_SYSROOT)/usr/include -L$(ARM_SYSROOT)/usr/lib
 export CPPFLAGS=-march=armv5te -mtune=arm9tdmi -I$(PREFIX)/include -I$(PREFIX)/usr/include
@@ -48,7 +49,6 @@ export AS=$(T_ARCH)-as
 export RANLIB=$(T_ARCH)-ranlib
 export STRIP=$(T_ARCH)-strip
 export OBJCOPY=$(T_ARCH)-objcopy
-
 export CROSS_COMPILE=$(T_ARCH)-
 export ARCH=arm
 
@@ -117,7 +117,7 @@ kernel/.config: $(DOWNLOADS)/golinux-tt1114405.tar.gz
 
 $(ARM_ROOT): $(ARMGCC)/lib
 	mkdir -p $(ARM_ROOT)/bin
-	cd $(CROSS)/$(T_ARCH)/libc/ && cp -R etc sbin lib usr $(ARM_SYSROOT)/
+	cd $(CROSS)/$(T_ARCH)/$(LIBC)/ && cp -R etc sbin lib $(ARM_SYSROOT)/ && if [ -d usr ]; then cp -R usr $(ARM_SYSROOT)/ ; else mkdir -p $(ARM_SYSROOT)/usr/ && cp -R bin include libexec share $(ARM_SYSROOT)/usr/;fi
 	#cd $(ARM_ROOT) && find . ! -type d -exec chmod a-w {} \;
 	mkdir -p $(ARM_ROOT)/usr/include
 	mkdir -p $(ARM_ROOT)/usr/man/man1
@@ -285,7 +285,8 @@ $(ARM_ROOT)/usr/include/mad.h: $(DOWNLOADS)/libmad-0.15.1b.tar.gz
 
 libjpeg: $(ARM_ROOT)/usr/include/jpeglib.h
 $(ARM_ROOT)/usr/include/jpeglib.h: $(DOWNLOADS)/libjpeg-6b.tar.gz $(ARM_ROOT)
-	cd build && tar xf ../Downloads/libjpeg-6b.tar.gz && cd libjpeg-6b && { \
+	cd build && tar xf ../Downloads/libjpeg-6b.tar.gz && cd jpeg-6b && { \
+		patch -p1 <../../patchs/libjpeg-6b-configure.patch; \
 		./configure --prefix=$(ARM_APPROOT) --host=arm-linux --enable-shared --enable-static >$(LOGS)/libjpeg.log; \
 		make $(JOBS) install >>$(LOGS)/jpeglib.log 2>&1 ; \
 	}

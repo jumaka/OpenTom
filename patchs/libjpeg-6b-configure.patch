@@ -1,0 +1,20 @@
+diff -crB jpeg-6b-orig/configure jpeg-6b/configure
+*** jpeg-6b-orig/configure	Sat Mar 21 19:08:57 1998
+--- jpeg-6b/configure	Tue Mar 28 20:55:30 2023
+***************
+*** 1559,1565 ****
+    if test "x$LTSTATIC" = xno; then
+      disable_static="--disable-static"
+    fi
+!   $srcdir/ltconfig $disable_shared $disable_static $srcdir/ltmain.sh
+  fi
+  
+  # Select memory manager depending on user input.
+--- 1559,1565 ----
+    if test "x$LTSTATIC" = xno; then
+      disable_static="--disable-static"
+    fi
+!   $srcdir/ltconfig $disable_shared $disable_static $srcdir/ltmain.sh $(if test x$host != xNONE ; then echo $host;fi)
+  fi
+  
+  # Select memory manager depending on user input.

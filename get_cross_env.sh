@@ -36,6 +36,7 @@ else
 	export PREFIX="$ROOT/arm-root"
 	if [ -d /opt/cross ]; then
 		export CROSS="/opt/cross"
+		export LIBC=.
 	else
 		:
 		#export CROSS="$ROOT/Sourcery_G++_Lite"
@@ -49,7 +50,7 @@ else
 	export CONFIG_SYSROOT=$PREFIX
 fi
 
-export PATH=$ARM_APPROOT/bin:/usr/bin:/bin:$ROOT/tools:$CROSS/bin
+export PATH=/usr/bin:/bin:$ROOT/tools:$CROSS/bin:$ARM_APPROOT/bin
 
 export CC="${T_ARCH}-gcc"
 export CXX="${T_ARCH}-g++"
