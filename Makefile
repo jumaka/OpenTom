@@ -285,7 +285,7 @@ $(ARM_ROOT)/usr/include/mad.h: $(DOWNLOADS)/libmad-0.15.1b.tar.gz
 
 libjpeg: $(ARM_ROOT)/usr/include/jpeglib.h
 $(ARM_ROOT)/usr/include/jpeglib.h: $(DOWNLOADS)/libjpeg-6b.tar.gz $(ARM_ROOT)
-	cd build && tar xf ../Downloads/libjpeg-6b.tar.gz && cd jpeg-6b && { \
+	cd build && tar xf ../Downloads/libjpeg-6b.tar.gz && cd libjpeg-6b && { \
 		patch -p1 <../../patchs/libjpeg-6b-configure.patch; \
 		./configure --prefix=$(ARM_APPROOT) --host=arm-linux --enable-shared --enable-static >$(LOGS)/libjpeg.log; \
 		make $(JOBS) install >>$(LOGS)/jpeglib.log 2>&1 ; \
