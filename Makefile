@@ -36,7 +36,7 @@ export T_ARCH ?=arm-linux
 LIBC ?=libc
 PREFIX=$(CROSS)/arm-linux/sys-root
 export CFLAGS=-mlittle-endian -march=armv5te -mtune=arm9tdmi -fno-omit-frame-pointer -fno-optimize-sibling-calls -mno-thumb-interwork -O2 -I$(ARM_SYSROOT)/usr/include -L$(ARM_SYSROOT)/usr/lib
-export CPPFLAGS=-march=armv5te -mtune=arm9tdmi -I$(PREFIX)/include -I$(PREFIX)/usr/include
+export CPPFLAGS=-march=armv5te -mtune=arm9tdmi -I$(PREFIX)/include -I$(PREFIX)/usr/include -I$(ARM_SYSROOT)/usr/include
 LDFLAGS=-L$(PREFIX)/lib -L$(ARM_SYSROOT)/usr/lib
 COMPILO=$(CROSS)/bin/$(T_ARCH)
 
@@ -292,7 +292,7 @@ $(ARM_ROOT)/usr/include/jpeglib.h: $(DOWNLOADS)/libjpeg-6b.tar.gz $(ARM_ROOT)
 	}
 
 libpng: $(ARM_ROOT)/usr/include/png.h
-$(ARM_ROOT)/usr/include/png.h: $(DOWNLOADS)/libpng-1.6.28.tar.gz
+$(ARM_ROOT)/usr/include/png.h: $(DOWNLOADS)/libpng-1.6.28.tar.gz $(ARM_ROOT) zlib
 	cd build && tar xf ../Downloads/libpng-1.6.28.tar.gz && cd libpng-1.6.28 && { \
 		./configure --prefix=$(ARM_APPROOT) --host=arm-linux --enable-shared --enable-static >$(LOGS)/libpng.log; \
 		make $(JOBS) install >>$(LOGS)/libpng.log 2>&1 ; \
