@@ -34,10 +34,10 @@ export ARMGCC ?=gcc-3.3.4_glibc-2.3.2
 export CROSS ?=$(ROOT)/$(ARMGCC)
 export T_ARCH ?=arm-linux
 LIBC ?=libc
-PREFIX=$(CROSS)/arm-linux/sys-root
+PREFIX ?=$(CROSS)/arm-linux/sys-root
 export CFLAGS=-mlittle-endian -march=armv5te -mtune=arm9tdmi -fno-omit-frame-pointer -fno-optimize-sibling-calls -mno-thumb-interwork -O2 -I$(ARM_SYSROOT)/usr/include -L$(ARM_SYSROOT)/usr/lib
 export CPPFLAGS=-march=armv5te -mtune=arm9tdmi -I$(PREFIX)/include -I$(PREFIX)/usr/include -I$(ARM_SYSROOT)/usr/include
-LDFLAGS=-L$(PREFIX)/lib -L$(ARM_SYSROOT)/usr/lib
+LDFLAGS=--sysroot=$(ARM_SYSROOT) -L$(ARM_SYSROOT)/lib -L$(ARM_SYSROOT)/usr/lib -L$(PREFIX)/lib 
 COMPILO=$(CROSS)/bin/$(T_ARCH)
 
 export CC=$(T_ARCH)-gcc
@@ -117,7 +117,7 @@ kernel/.config: $(DOWNLOADS)/golinux-tt1114405.tar.gz
 
 $(ARM_ROOT): $(ARMGCC)/lib
 	mkdir -p $(ARM_ROOT)/bin
-	cd $(CROSS)/$(T_ARCH)/$(LIBC)/ && cp -R etc sbin lib $(ARM_SYSROOT)/ && if [ -d usr ]; then cp -R usr $(ARM_SYSROOT)/ ; else mkdir -p $(ARM_SYSROOT)/usr/ && cp -R bin include libexec share $(ARM_SYSROOT)/usr/;fi
+	cd $(CROSS)/$(T_ARCH)/$(LIBC)/ && cp -R etc sbin lib $(ARM_SYSROOT)/ && if [ -d usr ]; then cp -R usr $(ARM_SYSROOT)/ ; else mkdir -p $(ARM_SYSROOT)/usr/ && cp -R bin include libexec share $(ARM_SYSROOT)/usr/; sed 's,$(CROSS)/$(T_ARCH)/lib/,,g' $(CROSS)/$(T_ARCH)/lib/libc.so > $(ARM_SYSROOT)/lib/libc.so; fi
 	#cd $(ARM_ROOT) && find . ! -type d -exec chmod a-w {} \;
 	mkdir -p $(ARM_ROOT)/usr/include
 	mkdir -p $(ARM_ROOT)/usr/man/man1
@@ -179,7 +179,7 @@ distrib: libs apps verif_dist
 nano-X: tslib build/microwin/src $(ARM_ROOT)/usr/include/microwin/nano-X.h
 $(ARM_ROOT)/usr/include/microwin/nano-X.h: $(ARM_ROOT)/usr/include/zlib.h $(ARM_ROOT)/usr/include/jpeglib.h $(ARM_ROOT)/usr/include/freetype2/freetype/freetype.h $(ARM_ROOT)/usr/include/png.h
 	cd build/microwin/src && { \
-		make >$(LOGS)/nanox.log 2>&1 && \
+		make CC=$(T_ARCH)-gcc INC_DIR=$(ARM_ROOT)/usr/include AR=$(T_ARCH)-ar >$(LOGS)/nanox.log 2>&1 && \
 		make install >>$(LOGS)/nanox.log 2>&1 && \
 		cp bin/convb* $(ARM_APPROOT)/bin; \
 	}

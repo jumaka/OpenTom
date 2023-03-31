@@ -33,7 +33,7 @@ if [ "old" == "$1" ]; then
 else
 	export TOOLCHAIN=new
 	echo Utilisation de Sourcery_G++_Lite
-	export PREFIX="$ROOT/arm-root"
+	export PREFIX="$ROOT/arm-sysroot"
 	if [ -d /opt/cross ]; then
 		export CROSS="/opt/cross"
 		export LIBC=.
