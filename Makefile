@@ -277,7 +277,7 @@ $(ARM_ROOT)/usr/include/SDL/SDL_net.h:
 libmad: $(ARM_ROOT)/usr/include/mad.h
 $(ARM_ROOT)/usr/include/mad.h: $(DOWNLOADS)/libmad-0.15.1b.tar.gz
 	cd build && { \
-		tar xf ../Downloads/libmad-0.15.1b.tar.gz && cd libmad* && {
+		tar xf ../Downloads/libmad-0.15.1b.tar.gz && cd libmad* && { \
 			./configure --prefix=$(ARM_APPROOT) --host=$(T_ARCH) >$(LOGS)/libmad.log; \
 			make $(JOBS) install >>$(LOGS)/libmad.log 2>&1; \
 		} \
@@ -317,7 +317,7 @@ $(ARM_ROOT)/usr/include/tslib.h: $(ARM_ROOT) $(DOWNLOADS)/tslib-1.0.tar.bz2
 nxlib: $(ARM_ROOT)/usr/include/X11/X.h
 $(ARM_ROOT)/usr/include/X11/X.h: build/nxlib $(ARM_ROOT)/usr/include/microwin/nano-X.h
 	cd build/nxlib && { \
-		make $(JOBS) >$(LOGS)/nxlib.log 2>&1 && \
+		export CC=$(CC) && make $(JOBS) >$(LOGS)/nxlib.log 2>&1 && \
 		make $(JOBS) install >>$(LOGS)/nxlib.log 2>&1 && \
                 cp -R X11 /usr/include/X11/cursorfont.h $(ARM_SYSROOT)/usr/include; \
 		cat $(CONFIGS)/x11.pc | sed 's#ARM_APPROOT#$(ARM_APPROOT)#' >$(ARM_APPROOT)/lib/pkgconfig/x11.pc; \
@@ -333,7 +333,11 @@ build/nxlib: $(DOWNLOADS)/nxlib_7adaf0e.tgz
                 else \
                         touch nxlib; \
 		fi; \
-                cd nxlib && patch -p1 <$(ROOT)/patchs/nxlib_git_opentom.patch; \
+                cd nxlib && { \
+			PF=$(ROOT)/patchs/nxlib_git_opentom.patch; \
+			if [ -f $${PF}.$(T_ARCH) ]; then PF=$${PF}.$(T_ARCH); fi; \
+			patch -p1 <$${PF}; \
+		} ; \
 		cp -Rf /usr/include/X11 .; \
 	}
 
