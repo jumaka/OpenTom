@@ -278,6 +278,7 @@ libmad: $(ARM_ROOT)/usr/include/mad.h
 $(ARM_ROOT)/usr/include/mad.h: $(DOWNLOADS)/libmad-0.15.1b.tar.gz
 	cd build && { \
 		tar xf ../Downloads/libmad-0.15.1b.tar.gz && cd libmad* && { \
+			patch -p1 < ../../patchs/libmad-0.15.1b-fixes-1.patch; \
 			./configure --prefix=$(ARM_APPROOT) --host=$(T_ARCH) >$(LOGS)/libmad.log; \
 			make $(JOBS) install >>$(LOGS)/libmad.log 2>&1; \
 		} \
