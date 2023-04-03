@@ -6,7 +6,7 @@ RUN apt-get install -y git
 RUN dpkg --add-architecture i386
 RUN apt-get update
 RUN apt install -y autoconf chrpath fluid imagemagick libglib2.0-dev libtool subversion xsltproc gawk dh-autoreconf pkg-config libglib2.0-dev libc-dev-bin libncurses-dev cmake
-RUN apt install -y vim wget binutils # binutils-arm-linux-gnueabi
+RUN apt install -y vim wget binutils gettext # binutils-arm-linux-gnueabi
 RUN mkdir -p /tomtom
 RUN mkdir -p /tomtom/gcc
 WORKDIR /tomtom/gcc
