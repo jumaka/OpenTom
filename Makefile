@@ -324,7 +324,7 @@ $(ARM_ROOT)/usr/include/X11/X.h: build/nxlib $(ARM_ROOT)/usr/include/microwin/na
 		cat $(CONFIGS)/x11.pc | sed 's#ARM_APPROOT#$(ARM_APPROOT)#' >$(ARM_APPROOT)/lib/pkgconfig/x11.pc; \
 		cat $(CONFIGS)/xext.pc | sed 's#ARM_APPROOT#$(ARM_APPROOT)#' >$(ARM_APPROOT)/lib/pkgconfig/xext.pc; \
 	}
-	cd $(ARM_ROOT)/usr/lib && ln -s libX11.so libX11.so.0
+	cd $(ARM_ROOT)/usr/lib && if [ ! -e libX11.so.0 ]; then ln -s libX11.so libX11.so.0; fi
 
 
 build/nxlib: $(DOWNLOADS)/nxlib_7adaf0e.tgz
@@ -369,10 +369,12 @@ $(ARM_ROOT)/usr/include/FL/Fl.H: $(DOWNLOADS)/fltk-1.3.2-source.tar.gz $(ARM_ROO
 
 glib1: $(ARM_ROOT)/usr/include/glib-1.2
 $(ARM_ROOT)/usr/include/glib-1.2: $(DOWNLOADS)/glib-1.2.10.tar.gz
-	chmod 755 $(ARM_APPROOT)/info/dir
+	# chmod 755 $(ARM_APPROOT)/info/dir
 	cd build && { \
 		tar xf ../Downloads/glib-1.2.10.tar.gz && cd glib-1.2.10 && { \
-			patch -p1 <../../patchs/glib-1.2.10_ready2make_arm.patch; \
+			PF=../../patchs/glib-1.2.10_ready2make_arm.patch; \
+			if [ -f $${PF}.$(T_ARCH) ]; then PF=$${PF}.$(T_ARCH); fi; \
+			patch -p1 <$${PF}; \
 			patch -p1 <../../patchs/glib-1.2.10_pretty_function.patch; \
 			make $(JOBS) >$(LOGS)/glib1.log 2>&1; \
 			make install >>$(LOGS)/glib1.log; \
@@ -383,7 +385,7 @@ glib2: $(ARM_ROOT)/usr/include/glib-2.0
 $(ARM_ROOT)/usr/include/glib-2.0: $(DOWNLOADS)/glib-2.14.6.tar.gz
 	cd build && { \
 		tar xf ../Downloads/glib-2.14.6.tar.gz && cd glib-2.14.6 && { \
-			cp $(CONFIGS)/glib2_config.cache_arm-linux config.cache; \
+			cp $(CONFIGS)/glib2_config.cache_$(T_ARCH) config.cache; \
 			CFLAGS="" LDFLAGS="" CXXFLAGS="" CPPFLAGS="" ./configure --prefix=$(ARM_APPROOT) --host=arm-linux --cache-file=config.cache >$(LOGS)/glib2.log && \
 			make $(JOBS) install >>$(LOGS)/glib2.log; \
 		}; \
