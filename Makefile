@@ -386,8 +386,8 @@ $(ARM_ROOT)/usr/include/glib-2.0: $(DOWNLOADS)/glib-2.14.6.tar.gz
 	cd build && { \
 		tar xf ../Downloads/glib-2.14.6.tar.gz && cd glib-2.14.6 && { \
 			cp $(CONFIGS)/glib2_config.cache_$(T_ARCH) config.cache; \
-			CFLAGS="" LDFLAGS="" CXXFLAGS="" CPPFLAGS="" ./configure --prefix=$(ARM_APPROOT) --host=arm-linux --cache-file=config.cache >$(LOGS)/glib2.log && \
-			make $(JOBS) install >>$(LOGS)/glib2.log; \
+			CFLAGS="" LDFLAGS="" CXXFLAGS="" CPPFLAGS="" ./configure --prefix=$(ARM_APPROOT) --host=arm-linux --cache-file=config.cache >$(LOGS)/glib2.log 2>&1 && \
+			make $(JOBS) install >>$(LOGS)/glib2.log 2>& 1; \
 		}; \
 	}
 
