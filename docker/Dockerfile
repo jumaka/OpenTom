@@ -61,10 +61,10 @@ WORKDIR /tomtom/gcc/build
 RUN PATH=/opt/cross/bin:$PATH make -j 6
 RUN PATH=/opt/cross/bin:$PATH make install
 WORKDIR /opt/cross
-RUN ln -s arm-linux-gnueabi /usr
-RUN ln bin/* /usr/bin
-RUN ln -s lib/gcc/arm-linux-gnueabi /usr/lib/gcc
-RUN ln -s libexec/gcc/arm-linux-gnueabi /usr/libexec/gcc
+# RUN ln -s arm-linux-gnueabi /usr
+# RUN ln bin/* /usr/bin
+# RUN ln -s lib/gcc/arm-linux-gnueabi /usr/lib/gcc
+# RUN ln -s libexec/gcc/arm-linux-gnueabi /usr/libexec/gcc
 RUN mkdir -p /root/.ssh
 COPY id_rsa* /root/.ssh/
 COPY gitconfig /root/.gitconfig
