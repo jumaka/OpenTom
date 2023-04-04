@@ -384,8 +384,9 @@ $(ARM_ROOT)/usr/include/glib-1.2: $(DOWNLOADS)/glib-1.2.10.tar.gz
 glib2: $(ARM_ROOT)/usr/include/glib-2.0
 $(ARM_ROOT)/usr/include/glib-2.0: $(DOWNLOADS)/glibc-2.20.tar.bz2
 	cd build && { \
-		tar xf ../Downloads/glibc-2.20.tar.bz2 && cd glibc-2.20 && { \
-			./configure --prefix=$(ARM_APPROOT) --host=arm-linux-genueabi >$(LOGS)/glib2.log 2>&1 && \
+		tar xf ../Downloads/glibc-2.20.tar.bz2 && \
+		mkdir -p glib2-build && cd glib2-build && { \
+			../glibc-2.20/configure --prefix=$(ARM_APPROOT) --host=arm-linux-gnueabi >$(LOGS)/glib2.log 2>&1 && \
 			make $(JOBS) install >>$(LOGS)/glib2.log 2>& 1; \
 		}; \
 	}
