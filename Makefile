@@ -285,8 +285,8 @@ $(ARM_ROOT)/usr/include/mad.h: $(DOWNLOADS)/libmad-0.15.1b.tar.gz
 	}
 
 libjpeg: $(ARM_ROOT)/usr/include/jpeglib.h
-$(ARM_ROOT)/usr/include/jpeglib.h: $(DOWNLOADS)/libjpeg-6b.tar.gz $(ARM_ROOT)
-	cd build && tar xf ../Downloads/libjpeg-6b.tar.gz && cd libjpeg-6b && { \
+$(ARM_ROOT)/usr/include/jpeglib.h: $(DOWNLOADS)/jpegsrc.v6b.tar.gz $(ARM_ROOT)
+	cd build && tar xf ../Downloads/jpegsrc.v6b.tar.gz && cd jpeg-6b && { \
 		patch -p1 <../../patchs/libjpeg-6b-configure.patch; \
 		./configure --prefix=$(ARM_APPROOT) --host=arm-linux --enable-shared --enable-static >$(LOGS)/libjpeg.log; \
 		make $(JOBS) install >>$(LOGS)/jpeglib.log 2>&1 ; \
@@ -382,11 +382,10 @@ $(ARM_ROOT)/usr/include/glib-1.2: $(DOWNLOADS)/glib-1.2.10.tar.gz
 	}
 
 glib2: $(ARM_ROOT)/usr/include/glib-2.0
-$(ARM_ROOT)/usr/include/glib-2.0: $(DOWNLOADS)/glib-2.14.6.tar.gz
+$(ARM_ROOT)/usr/include/glib-2.0: $(DOWNLOADS)/glibc-2.20.tar.bz2
 	cd build && { \
-		tar xf ../Downloads/glib-2.14.6.tar.gz && cd glib-2.14.6 && { \
-			cp $(CONFIGS)/glib2_config.cache_$(T_ARCH) config.cache; \
-			CFLAGS="" LDFLAGS="" CXXFLAGS="" CPPFLAGS="" ./configure --prefix=$(ARM_APPROOT) --host=arm-linux --cache-file=config.cache >$(LOGS)/glib2.log 2>&1 && \
+		tar xf ../Downloads/glibc-2.20.tar.bz2 && cd glibc-2.20 && { \
+			./configure --prefix=$(ARM_APPROOT) --host=arm-linux-genueabi >$(LOGS)/glib2.log 2>&1 && \
 			make $(JOBS) install >>$(LOGS)/glib2.log 2>& 1; \
 		}; \
 	}

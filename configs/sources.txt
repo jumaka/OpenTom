@@ -20,7 +20,7 @@ wget http://downloads.sourceforge.net/mad/libmad-0.15.1b.tar.gz
 wget https://web.archive.org/web/20150714174958/http://www.tomtom.com/gpl/csrinit-tt531604.tar.gz
 wget http://pkgs.fedoraproject.org/repo/pkgs/tslib/tslib-1.0.tar.bz2/92b2eb55b1e4ef7e2c0347069389390e/tslib-1.0.tar.bz2
 wget http://ftp.gnome.org/pub/gnome/sources/glib/1.2/glib-1.2.10.tar.gz
-wget http://ftp.gnome.org/pub/gnome/sources/glib/2.14/glib-2.14.6.tar.gz
+wget https://ftp.gnu.org/gnu/glibc/glibc-2.20.tar.bz2
 wget https://archive.org/download/bluez-libs-2.15-tt350126.tar.gz/bluez-libs-2.15-tt350126.tar.gz
 wget https://curl.haxx.se/download/curl-7.51.0.tar.gz
 wget http://downloads.sourceforge.net/project/mad/libid3tag/0.15.1b/libid3tag-0.15.1b.tar.gz
