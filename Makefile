@@ -225,7 +225,7 @@ $(TOMDIST)/bin/ctorrent: $(ARM_ROOT)/usr/include/openssl/opensslconf.h $(DOWNLOA
 
 libs: nano-X sdl fltk13 extra_libs
 
-extra_libs: sdl_mixer sdl_image sdl_ttf libmad glib1 glib2 bluez-libs curl libid3tag expat
+extra_libs: sdl_mixer sdl_image sdl_ttf libmad bluez-libs curl libid3tag expat
 
 sdl: $(ARM_ROOT)/usr/include/SDL/SDL.h
 $(ARM_ROOT)/usr/include/SDL/SDL.h: $(DOWNLOADS)/SDL-1.2.15.tar.gz $(ARM_ROOT)/usr/include/microwin/nano-X.h
@@ -394,7 +394,10 @@ $(ARM_ROOT)/usr/include/glib-2.0: $(DOWNLOADS)/glibc-2.20.tar.bz2
 bluez-libs: $(ARM_ROOT)/usr/include/bluetooth/hci.h
 $(ARM_ROOT)/usr/include/bluetooth/hci.h: $(DOWNLOADS)/bluez-libs-2.15-tt350126.tar.gz
 	cd build && { \
-		tar xf ../Downloads/bluez-libs-2.15-tt350126.tar.gz && cd bluez-libs* && { \
+		tar xf ../Downloads/bluez-libs-2.15-tt350126.tar.gz && \
+		if [ -f ../patchs/bluez-sdp-limits.path.$(T_ARCH) ]; then patch -p1 < ../patchs/bluez-sdp-limits.path.$(T_ARCH); fi && \
+       	cd bluez-libs* && { \
+
 			./configure --prefix=$(ARM_SYSROOT)/usr --host=arm-linux >$(LOGS)/bluez-libs.log; \
 			make $(JOBS) install >>$(LOGS)/bluez-libs.log; \
 		} \
