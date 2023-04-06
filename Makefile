@@ -456,13 +456,19 @@ $(ARM_ROOT)/usr/include/openssl/opensslconf.h: Downloads/openssl-1.0.1u.tar.gz
 	}
 
 gtk: $(ARM_ROOT)/usr/include/gtk-1.2/gtk/gtk.h
-/usr/include/gtk-1.2/gtk/gtk.h: Downloads/gtk+-1.2.10.tar.gz
+$(ARM_ROOT)/usr/include/gtk-1.2/gtk/gtk.h: Downloads/gtk+-1.2.10.tar.gz
 	cd build && tar xf ../Downloads/gtk+-1.2.10.tar.gz && cd gtk+-1.2.10 && { \
 		./configure --prefix=$(ARM_APPROOT) --host=$(T_ARCH) --with-glib-prefix=$(ARM_APPROOT) && \
 		make install $(JOBS) >$(LOGS)/gtk1.log; \
 		sed 's#glib_libs="-L/lib#glib_libs="-L/${ARM_APPROOT}/lib#' <gtk-config | sed 's#glib_cflags="-I/include/glib-1.2 -I/lib/glib/include"#glib_cflags="-I${ARM_APPROOT}/include/glib-1.2 -I${ARM_APPROOT}/lib/glib/include"#' | sed 's#-L/usr/lib##' | sed 's#-L/lib##' >/backup/TomTom/OpenTomSDK/arm-sysroot/usr/bin/gtk-config; \
 	}
 
+libusb: $(ARM_ROOT)/usr/include/usb.h
+$(ARM_ROOT)/usr/include/usb.h: Downloads/libusb-0.1.4.tar.gz
+	cd build && tar xf ../Downloads/libusb-0.1.4.tar.gz && cd libusb-0.1.4 && { \
+		CONFIG_SITE=configs/libusb-0.1_config.cache_arm-linux-gnueabi ./configure --prefix=$(ARM_SYSROOT)/usr --host=arm-linux-gnueabi; \
+		make install $(JOBS) >$(LOGS)/libusb.log; \
+      }
 
 ################
 # Apps and Tools
@@ -489,13 +495,13 @@ $(TOMDIST): nano-X
 	cp -R $(ARM_SYSROOT)/usr/lib/ts/*.so $(TOMDIST)/lib/ts/
 	cp $(ARM_SYSROOT)/usr/bin/ts_calibrate $(ARM_SYSROOT)/usr/bin/ts_test  $(TOMDIST)/bin
 
-tool_apps: csrinit bluez-utils pppd
+tool_apps: libusb csrinit bluez-utils pppd
 
 csrinit: $(TOMDIST)/bin/csrinit
-$(TOMDIST)/bin/csrinit: $(DOWNLOADS)/csrinit-tt531604.tar.gz
+$(TOMDIST)/bin/csrinit: $(DOWNLOADS)/csrinit-tt531604.tar.gz libusb
 	cd build && { \
 		tar xf ../Downloads/csrinit-tt531604.tar.gz; \
-		cd csrinit && patch -p1 <../../patchs/csrinit_lowTX.patch && arm-linux-gcc -o $(TOMDIST)/bin/csrinit -DSUPPORT_USB *.c -lusb; \
+		cd csrinit && patch -p1 <../../patchs/csrinit_lowTX.patch && $(CC) -o $(TOMDIST)/bin/csrinit --sysroot=$(ARM_SYSROOT) -I$(ARM_SYSROOT)/usr/include -DSUPPORT_USB *.c -lusb; \
 	}
 
 bluez-utils: $(ARM_ROOT)/usr/bin/rfcomm
