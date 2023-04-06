@@ -37,6 +37,7 @@ else
 	if [ -d /opt/cross ]; then
 		export CROSS="/opt/cross"
 		export LIBC=.
+		export ARMGCC="/opt/cross"
 	else
 		:
 		#export CROSS="$ROOT/Sourcery_G++_Lite"

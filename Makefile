@@ -293,7 +293,7 @@ $(ARM_ROOT)/usr/include/jpeglib.h: $(DOWNLOADS)/jpegsrc.v6b.tar.gz $(ARM_ROOT)
 	}
 
 libpng: $(ARM_ROOT)/usr/include/png.h
-$(ARM_ROOT)/usr/include/png.h: $(DOWNLOADS)/libpng-1.6.28.tar.gz $(ARM_ROOT) zlib
+$(ARM_ROOT)/usr/include/png.h: $(DOWNLOADS)/libpng-1.6.28.tar.gz $(ARM_ROOT)/usr/include/zlib.h
 	cd build && tar xf ../Downloads/libpng-1.6.28.tar.gz && cd libpng-1.6.28 && { \
 		./configure --prefix=$(ARM_APPROOT) --host=arm-linux --enable-shared --enable-static >$(LOGS)/libpng.log; \
 		make $(JOBS) install >>$(LOGS)/libpng.log 2>&1 ; \
@@ -395,9 +395,8 @@ bluez-libs: $(ARM_ROOT)/usr/include/bluetooth/hci.h
 $(ARM_ROOT)/usr/include/bluetooth/hci.h: $(DOWNLOADS)/bluez-libs-2.15-tt350126.tar.gz
 	cd build && { \
 		tar xf ../Downloads/bluez-libs-2.15-tt350126.tar.gz && \
-		if [ -f ../patchs/bluez-sdp-limits.path.$(T_ARCH) ]; then patch -p1 < ../patchs/bluez-sdp-limits.path.$(T_ARCH); fi && \
+		if [ -f ../patchs/bluez-sdp-limits.path.$(T_ARCH) ]; then (cd bluez-libs* && patch -p1 < ../../patchs/bluez-sdp-limits.path.$(T_ARCH)); fi && \
        	cd bluez-libs* && { \
-
 			./configure --prefix=$(ARM_SYSROOT)/usr --host=arm-linux >$(LOGS)/bluez-libs.log; \
 			make $(JOBS) install >>$(LOGS)/bluez-libs.log; \
 		} \
