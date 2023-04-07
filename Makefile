@@ -464,10 +464,10 @@ $(ARM_ROOT)/usr/include/gtk-1.2/gtk/gtk.h: Downloads/gtk+-1.2.10.tar.gz
 	}
 
 libusb: $(ARM_ROOT)/usr/include/usb.h
-$(ARM_ROOT)/usr/include/usb.h: Downloads/libusb-0.1.4.tar.gz
-	cd build && tar xf ../Downloads/libusb-0.1.4.tar.gz && cd libusb-0.1.4 && { \
-		CONFIG_SITE=configs/libusb-0.1_config.cache_arm-linux-gnueabi ./configure --prefix=$(ARM_SYSROOT)/usr --host=arm-linux-gnueabi; \
-		make install $(JOBS) >$(LOGS)/libusb.log; \
+$(ARM_ROOT)/usr/include/usb.h: Downloads/libusb-0.1.12.tar.gz
+	cd build && tar xf ../Downloads/libusb-0.1.12.tar.gz && cd libusb-0.1.12 && { \
+		CONFIG_SITE=configs/libusb-0.1_config.cache_arm-linux-gnueabi ./configure --prefix=$(ARM_SYSROOT)/usr --host=arm-linux-gnueabi >$(LOGS)/libusb.log 2>&1; \
+		make install $(JOBS) >>$(LOGS)/libusb.log 2>&1; \
       }
 
 ################
@@ -507,10 +507,11 @@ $(TOMDIST)/bin/csrinit: $(DOWNLOADS)/csrinit-tt531604.tar.gz libusb
 bluez-utils: $(ARM_ROOT)/usr/bin/rfcomm
 $(ARM_ROOT)/usr/bin/rfcomm: $(DOWNLOADS)/bluez-utils-2.15.tar.gz $(ARM_ROOT)/usr/include/bluetooth/hci.h
 	cd build && { \
-		tar xf ../Downloads/bluez-utils-2.15.tar.gz; \
+		tar xf ../Downloads/bluez-utils-2.15.tar.gz && \
+		if [ -f ../patchs/bluez-utils-sdp-limits.path.$(T_ARCH) ]; then (cd bluez-utils-2.15 && patch -p1 < ../../patchs/bluez-utils-sdp-limits.path.$(T_ARCH)); fi && \
 		cd bluez-utils-2.15 && { \
 			./configure --prefix=$(ARM_APPROOT) --host=arm-linux; \
-			make install; \
+			make -j $(JOBS) install; \
 		} >$(LOGS)/bluez-utils.log 2>&1; \
 	}
 	cp $(ARM_APPROOT)/bin/rfcomm $(TOMDIST)/bin

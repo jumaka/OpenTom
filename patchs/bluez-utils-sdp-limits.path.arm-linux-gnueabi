@@ -1,0 +1,11 @@
+diff -ru bluez-utils-2.15/sdpd/request.c bluez-utils-2.15-n/sdpd/request.c
+--- bluez-utils-2.15/sdpd/request.c	2004-06-17 16:05:36.000000000 +0000
++++ bluez-utils-2.15-n/sdpd/request.c	2023-04-07 10:28:41.343103279 +0000
+@@ -41,6 +41,7 @@
+ #include <bluetooth/bluetooth.h>
+ #include <bluetooth/sdp.h>
+ #include <bluetooth/sdp_lib.h>
++#include <limits.h>
+ 
+ #include "sdpd.h"
+ 
