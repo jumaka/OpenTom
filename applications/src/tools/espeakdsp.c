@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <sys/resource.h>
 
 #define ESPEAKPATH "/mnt/sdcard/opentom/bin/espeak"
 #define IBUFFERLEN 1024
