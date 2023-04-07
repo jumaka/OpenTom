@@ -6,7 +6,7 @@ buildmap: buildmap.c bmptools.c
 	gcc $(DEBUG) -o buildmap buildmap.c bmptools.c
 
 nxkeyboard: cli.c keymap.c nxkeyboard.c srvconn.c
-	$(CC) $(DEBUG) -o nxkeyboard cli.c keymap.c nxkeyboard.c srvconn.c -lnano-X
+	$(CC) $(DEBUG) --sysroot=$(ARM_SYSROOT) -I$(ARM_SYSROOT)/usr/include -o nxkeyboard cli.c keymap.c nxkeyboard.c srvconn.c -lnano-X
 
 install: nxkeyboard
 	cp nxkeyboard $(TOMDIST)/bin

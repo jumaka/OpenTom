@@ -1,5 +1,5 @@
 NAME=flxplorer
-EXT_FLAGS=-I$(ROOT)/kernel/include -I$(ARM_SYSROOT)/usr/include/microwin
+EXT_FLAGS=--sysroot=$(ARM_SYSROOT) -I$(ARM_SYSROOT)/usr/include -I$(ROOT)/kernel/include
 
 install: $(NAME)
 	cp $(NAME) $(TOMDIST)/bin

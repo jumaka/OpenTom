@@ -3,10 +3,10 @@ install: nanobrick nanobrick_editor
 	cp nanobrick nanobrick_editor $(TOMDIST)/bin
 
 nanobrick: nanobrick_images.c nanobrick.c
-	$(CC) -o nanobrick nanobrick.c -I$(ARM_APPROOT)/include/microwin -lnano-X
+	$(CC) -o nanobrick nanobrick.c --sysroot=$(ARM_SYSROOT) -I$(ARM_SYSROOT)/usr/include -I$(ARM_APPROOT)/include/microwin -lnano-X
 
 nanobrick_editor: nanobrick_images.c nanobrick_editor.c
-	$(CC) -o nanobrick_editor nanobrick_editor.c -I$(ARM_APPROOT)/include/microwin -lnano-X
+	$(CC) -o nanobrick_editor nanobrick_editor.c --sysroot=$(ARM_SYSROOT) -I$(ARM_SYSROOT)/usr/include -I$(ARM_APPROOT)/include/microwin -lnano-X
 
 nanobrick_images.c: nanobrick_images.bmp
 	convbmp nanobrick_images.bmp

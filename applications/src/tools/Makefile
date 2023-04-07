@@ -11,7 +11,7 @@ clean:
 	rm -f $(TOOLS)
 
 %: %.c
-	$(CC) -o $@ -I$(ROOT)/kernel/include $@.c -lnano-X
+	$(CC) -o $@ --sysroot=$(ARM_SYSROOT) -I$(ARM_SYSROOT)/usr/include -I$(ROOT)/kernel/include $@.c -lnano-X
 
 %: %.cxx
-	$(CXX) -o $@ $@.cxx -lfltk -lfltk_images
+	$(CXX) -o $@ --sysroot=$(ARM_SYSROOT) -I$(ARM_SYSROOT)/usr/include -I$(ROOT)/kernel/include $@.cxx -lfltk -lfltk_images
