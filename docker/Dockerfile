@@ -69,6 +69,9 @@ RUN mkdir -p /root/.ssh
 COPY id_rsa* /root/.ssh/
 COPY gitconfig /root/.gitconfig
 WORKDIR /tomtom
+RUN apt install -y cpio kmod
+RUN mkdir -p /tomtom/Downloads
+COPY Downloads/ /tomtom/Downloads
 # RUN ssh -q git@github.com
 # RUN git clone git@github.com:jumaka/OpenTom.git
 # WORKDIR /tomtom/OpenTom
