@@ -75,6 +75,12 @@ base: tools ttsystem distrib
 	@echo "#####################################################################################"
 	@echo
 
+base-pkg: base $(ROOT)/build/sys.tar.gz
+$(ROOT)/build/sys.tar.gz: $(ROOT)/build/ttsystem $(TOMDIST)
+	tar cPfz $(ROOT)/build/sys.tar.gz --transform "s,$(TOMDIST),opentom," $(TOMDIST) -C $(ROOT)/build ttsystem 
+	@echo "#####################################################################################"
+	@echo "# Made a single archive $(ROOT)/build/sys.tar.gz to copy and extract"
+	@echo "#####################################################################################"
 
 extra: espeak libzip sdl_net ctorrent
 	make -C applications extra
