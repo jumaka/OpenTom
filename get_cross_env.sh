@@ -44,7 +44,7 @@ else
 		#export CROSS="$ROOT/arm-2009q1"
 	fi
 	export T_ARCH=arm-linux-gnueabi
-	MARCH="-march=armv4 -mtune=arm9tdmi -mlittle-endian"
+	MARCH="-march=armv5te -mtune=arm9tdmi -mlittle-endian"
 	export CFLAGS="$MARCH --sysroot=$PREFIX -Wl,--sysroot=$PREFIX -O2 -I$PREFIX/include -I$PREFIX/usr/include"
 	export CPPFLAGS="$MARCH -I$PREFIX/include -I$PREFIX/usr/include"
 	export LDFLAGS="--sysroot=$PREFIX -L$PREFIX/lib -L$PREFIX/usr/lib"

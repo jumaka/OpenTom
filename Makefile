@@ -111,6 +111,7 @@ build/initramfs.cpio.gz: $(CONFIGS)/initramfs_prepend kernel/arch/arm/boot/zImag
 	kernel/scripts/gen_initramfs_list.sh -u `id -u` -g `id -g` $(INITRAMFS_ROOT) >>build/cpio_list
 	kernel/usr/gen_init_cpio build/cpio_list | gzip -9 >build/initramfs.cpio.gz
 
+	touch $(ARM_ROOT)
 kernel/arch/arm/boot/zImage: $(ARM_ROOT) kernel/.config
 	mkdir -p $(LOGS)
 	cd kernel && make clean && nice -n 19 make $(JOBS) >$(LOGS)/kernel.log 2>&1
@@ -121,6 +122,7 @@ kernel/.config: $(DOWNLOADS)/golinux-tt1114405.tar.gz
 	cd kernel && patch -p1 <$(ROOT)/patchs/kernel_tt1114405_opentom.patch
 	cp $(CONFIGS)/kernel_config.tomtom_one kernel/.config
 	# cp $(CONFIGS)/kernel_config.no_console kernel/.config
+
 
 $(ARM_ROOT): $(ARMGCC)/lib
 	mkdir -p $(ARM_ROOT)/bin
@@ -388,12 +390,20 @@ $(ARM_ROOT)/usr/include/glib-1.2: $(DOWNLOADS)/glib-1.2.10.tar.gz
 		}; \
 	}
 
-glib2: $(ARM_ROOT)/usr/include/glib-2.0
-$(ARM_ROOT)/usr/include/glib-2.0: $(DOWNLOADS)/glibc-2.20.tar.bz2
+glib2: $(ARM_ROOT)/usr/include/_G_config.h
+$(ARM_ROOT)/usr/include/_G_config.h: $(DOWNLOADS)/glibc-2.20.tar.bz2
+	mkdir -p $(ROOT)/build && mkdir -p $(ROOT)/logs && \
+	mkdir -p $(ROOT)/$(ARM_ROOT) && \
 	cd build && { \
 		tar xf ../Downloads/glibc-2.20.tar.bz2 && \
 		mkdir -p glib2-build && cd glib2-build && { \
-			../glibc-2.20/configure --prefix=$(ARM_APPROOT) --host=arm-linux-gnueabi >$(LOGS)/glib2.log 2>&1 && \
+			CFLAGS="-mlittle-endian -march=armv5te -mtune=arm9tdmi -fno-omit-frame-pointer -fno-optimize-sibling-calls -mno-thumb-interwork -O2" \
+			CPPFLAGS="-march=armv5te -mtune=arm9tdmi -O2" ../glibc-2.20/configure \
+			--prefix=$(ARM_SYSROOT) --host=arm-linux-gnueabi \
+			--bindir=$(ARM_SYSROOT)/usr/bin --libexecdir=$(ARM_SYSROOT)/usr/libexec \
+			--includedir=$(ARM_SYSROOT)/usr/include --datarootdir=$(ARM_SYSROOT)/usr/share \
+			> $(LOGS)/glib2.log 2>&1 && \
+			make $(JOBS) >>$(LOGS)/glib2.log 2>& 1; \
 			make $(JOBS) install >>$(LOGS)/glib2.log 2>& 1; \
 		}; \
 	}
