@@ -2,6 +2,7 @@
 # Libs
 wget http://download.tomtom.com/open/gpl/toolchain_redhat_gcc-3.3.4_glibc-2.3.2-20060131a.tar.gz
 wget https://archive.org/download/golinux-tt1114405.tar.gz/golinux-tt1114405.tar.gz
+wget https://cdn.kernel.org/pub/linux/kernel/v2.6/linux-2.6.32.27.tar.bz2
 wget http://download.tomtom.com/open/gpl/13_x/release_open_sources-tt1275485.tar.gz
 wget https://downloads.sourceforge.net/libpng/zlib-1.2.11.tar.gz
 wget http://downloads.sourceforge.net/libjpeg/6b/jpegsrc.v6b.tar.gz
@@ -21,7 +22,7 @@ wget http://downloads.sourceforge.net/mad/libmad-0.15.1b.tar.gz
 wget https://web.archive.org/web/20150714174958/http://www.tomtom.com/gpl/csrinit-tt531604.tar.gz
 wget http://pkgs.fedoraproject.org/repo/pkgs/tslib/tslib-1.0.tar.bz2/92b2eb55b1e4ef7e2c0347069389390e/tslib-1.0.tar.bz2
 wget http://ftp.gnome.org/pub/gnome/sources/glib/1.2/glib-1.2.10.tar.gz
-wget https://ftp.gnu.org/gnu/glibc/glibc-2.19.tar.bz2
+ wget https://ftp.gnu.org/gnu/glibc/glibc-2.19.tar.bz2
 wget https://archive.org/download/bluez-libs-2.15-tt350126.tar.gz/bluez-libs-2.15-tt350126.tar.gz
 wget https://curl.haxx.se/download/curl-7.51.0.tar.gz
 wget http://downloads.sourceforge.net/project/mad/libid3tag/0.15.1b/libid3tag-0.15.1b.tar.gz

@@ -116,10 +116,11 @@ kernel/arch/arm/boot/zImage: $(ARM_ROOT) kernel/.config
 	mkdir -p $(LOGS)
 	cd kernel && make clean && nice -n 19 make $(JOBS) >$(LOGS)/kernel.log 2>&1
 
-kernel/.config: $(DOWNLOADS)/golinux-tt1114405.tar.gz
-	cd src && tar xf ../$(DOWNLOADS)/golinux-tt1114405.tar.gz
-	ln -s src/linux-s3c24xx kernel
-	cd kernel && patch -p1 <$(ROOT)/patchs/kernel_tt1114405_opentom.patch
+kernel/.config: $(DOWNLOADS)/linux-2.6.32.27.tar.bz2
+	mkdir -p build
+	cd build && tar xf ../$(DOWNLOADS)/linux-2.6.32.27.tar.bz2
+	ln -s build/linux-2.6.32.27 kernel
+	# cd kernel && patch -p1 <$(ROOT)/patchs/kernel_tt1114405_opentom.patch
 	cp $(CONFIGS)/kernel_config.tomtom_one kernel/.config
 	# cp $(CONFIGS)/kernel_config.no_console kernel/.config
 
